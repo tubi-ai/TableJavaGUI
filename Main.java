@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class Main {
     public static void main(String[] args) {
-        // Swing GUI'yi başlat
+        // Start Swing GUI
         SwingUtilities.invokeLater(() -> {
             new InputArrayListGUI();
         });
