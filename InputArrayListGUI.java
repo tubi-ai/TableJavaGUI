@@ -21,15 +21,15 @@ public class InputArrayListGUI extends JFrame {
         this.maxSize = N;
         list = new inputArrayList(N);
 
-        // Pencere ayarları
+        // Window settings
         setTitle("Palindrome Checker");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        getContentPane().setBackground(new Color(45, 45, 45)); // Pencere arka plan rengi
+        getContentPane().setBackground(new Color(45, 45, 45)); // Window background color
 
 
-        // Üst panel: String girişi ve ekleme butonu
+        // Top panel: String input and insert button
         JPanel inputPanel = new JPanel();
         inputPanel.setBackground(new Color(160, 163, 165));
         inputPanel.setLayout(new FlowLayout());
@@ -46,7 +46,7 @@ public class InputArrayListGUI extends JFrame {
         inputPanel.add(inputField);
         inputPanel.add(addButton);
 
-        // Orta panel: Tabloyu içerir
+        // Middle panel: Contains the table
         String[] columnNames = {"Index", "String", "Palindrome?"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
@@ -56,7 +56,7 @@ public class InputArrayListGUI extends JFrame {
         table.getTableHeader().setBackground(new Color(70, 70, 70));
         table.getTableHeader().setForeground(Color.WHITE);
 
-     // Palindrome olan satırların yeşil renkte görünmesi
+     // Palindrome lines appear in green
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,boolean isSelected, boolean hasFocus, int row, int column) {
@@ -76,7 +76,7 @@ public class InputArrayListGUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Alt panel: Index girişi ve güncelleme butonu
+        // Bottom panel: Index entry and update button
         JPanel updatePanel = new JPanel();
         updatePanel.setBackground(new Color(160, 163, 165));
         updatePanel.setLayout(new FlowLayout());
@@ -93,22 +93,22 @@ public class InputArrayListGUI extends JFrame {
         updatePanel.add(indexField);
         updatePanel.add(updateButton);
 
-        // Panelleri pencereye ekle
+        // Add panels to window
         add(inputPanel, BorderLayout.NORTH);
         add(updatePanel, BorderLayout.SOUTH);
 
-        // Butonlara action listener ekle
+        // Add action listener to buttons
         addButton.addActionListener(new AddStringListener());
         updateButton.addActionListener(new UpdateIndexListener());
     }
 
-    // String ekleme işlemini yöneten listener
+    // Listener that manages string appending process
     private class AddStringListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String input = inputField.getText();
             if (!input.isEmpty()) {
-                if (list.size() < maxSize) {  // Index sınırını kontrol et
+                if (list.size() < maxSize) {  // Check index limit
                     list.addArrayList(input);
                     addToTable(list.size() - 1, input);
                     inputField.setText("");
@@ -120,24 +120,24 @@ public class InputArrayListGUI extends JFrame {
         }
     }
 
-    // Tabloya yeni satır ekleme
+    // Adding a new row to a table
     private void addToTable(int index, String input) {
         String palindromeStatus = list.isPalindromeString(input) ? "Palindrome" : "Not a Palindrome";
         tableModel.addRow(new Object[]{index, input, palindromeStatus});
     }
 
-    // Index güncellemesini yöneten listener
+    // Listener that manages index updates
     private class UpdateIndexListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 int newSize = Integer.parseInt(indexField.getText());
 
-                if (newSize > maxSize) {  // Yeni index sınırı aşılırsa eklemeye izin verme
+                if (newSize > maxSize) {  // Do not allow adding if new index limit is exceeded
                     JOptionPane.showMessageDialog(null, 
                         "Index exceeds the maximum allowed size!");
                 } else if (newSize > list.size()) {  
-                    // Yeni index mevcut boyuttan büyükse yeni elemanlar ekle
+                    // If the new index is larger than the current size, add new elements.
                     for (int i = list.size(); i < newSize; i++) {
                         String newString = JOptionPane.showInputDialog(
                             "Enter a string for index " + i + ":");
@@ -145,7 +145,7 @@ public class InputArrayListGUI extends JFrame {
                         addToTable(i, newString);
                     }
                 } else if (newSize < list.size()) {  
-                    // Yeni index mevcut boyuttan küçükse fazla elemanları sil
+                    // If the new index is smaller than the current size, remove the extra elements.
                     for (int i = list.size() - 1; i >= newSize; i--) {
                         list.remove(i);
                         tableModel.removeRow(i);
@@ -158,9 +158,9 @@ public class InputArrayListGUI extends JFrame {
         }
     }
 
-    // Tabloyu güncelleme
+    // Updating the table
     private void refreshTable() {
-        tableModel.setRowCount(0);  // Eski veriyi temizle
+        tableModel.setRowCount(0);  // Clean up old data
         for (int i = 0; i < list.size(); i++) {
             String input = list.get(i);
             String palindromeStatus = list.isPalindromeString(input) ? "Palindrome" : "Not a Palindrome";
