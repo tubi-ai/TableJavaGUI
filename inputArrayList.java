@@ -32,13 +32,13 @@ public class inputArrayList {
         int currentSize = L.size();
 
         if (index >= currentSize) {
-            // Ara indexler için kullanıcıdan string iste
+            // Require string from user for intermediate indexes
             for (int i = currentSize; i <= index; i++) {
                 String newString = JOptionPane.showInputDialog("Enter a string for index " + i + ":");
-                if (newString != null) {  // Kullanıcı "Cancel" derse null dönebilir, kontrol etmeliyiz.
+                if (newString != null) {  // If the user clicks "Cancel" it may return null, we need to check it.
                     L.add(newString);
 
-                    // Yeni eklenen string için palindrom kontrolü
+                    // Palindrome check for newly added string
                     if (isPalindromeString(newString)) {
                         JOptionPane.showMessageDialog(null, "\"" + newString + "\" is a palindrome!");
                     } else {
@@ -47,12 +47,12 @@ public class inputArrayList {
                 }
             }
         } else {
-            // Mevcut bir index güncelleniyorsa
+            // If an existing index is being updated
             String newString = JOptionPane.showInputDialog("Enter a new string for index " + index + ":");
-            if (newString != null) {  // Kullanıcı "Cancel" derse null dönebilir, kontrol etmeliyiz.
+            if (newString != null) {  // If the user clicks "Cancel" it may return null, we need to check it.
                 L.set(index, newString);
 
-                // Güncellenen string için palindrom kontrolü
+                // Check palindrome for updated string
                 if (isPalindromeString(newString)) {
                     JOptionPane.showMessageDialog(null, "\"" + newString + "\" is a palindrome!");
                 } else {
